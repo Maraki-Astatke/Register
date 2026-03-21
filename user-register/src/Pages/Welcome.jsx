@@ -19,20 +19,19 @@ export default function Welcome() {
       </div>
 
       <div className="max-w-2xl w-full relative z-10">
-        {/* Decorative card */}
+      
         <div className="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-3xl blur-xl opacity-30 transition duration-1000"></div>
         
         <div className="relative bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/20 transform transition-all duration-300 hover:scale-[1.02]">
-          {/* Success Icon */}
+       
           <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg animate-bounce-slow">
+            <div className="w-20 h-20 bg-gradient-to-br from-green-100 to-emerald-200 rounded-full flex items-center justify-center shadow-lg animate-bounce-slow">
               <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
           </div>
 
-          {/* Welcome Message */}
           <div className="text-center mb-8">
             <p className="text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 mb-3">
               Welcome {username}!
