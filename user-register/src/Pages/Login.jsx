@@ -109,11 +109,7 @@ export default function Login() {
               {isLoading ? "Signing in..." : "Sign In"}
             </button>
 
-            <div className="mt-4 p-3 bg-gray-100 rounded-xl border border-gray-200">
-              <p className="text-xs text-gray-500 text-center">
-                Username: maki | Phone: 0911995992 | Password: 123456
-              </p>
-            </div>
+         
           </form>
 
           <div className="mt-6 text-center text-gray-500">
