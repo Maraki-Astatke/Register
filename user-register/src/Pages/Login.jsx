@@ -16,7 +16,6 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
 
-
     if (
       form.username === DEMO_USER.username &&
       form.phone === DEMO_USER.phone &&
@@ -32,26 +31,26 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-white p-4 relative overflow-hidden">
 
-      {/* Background blobs */}
+      {/* Background blobs - made lighter */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-200 rounded-full blur-3xl opacity-40"></div>
       </div>
 
       <div className="max-w-md w-full relative z-10">
-        <div className="relative bg-white/10 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/20">
+        <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-gray-200">
 
-          <h2 className="text-4xl font-bold mb-2 text-center text-white">
+          <h2 className="text-4xl italic font-bold mb-8 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
             Welcome Back
           </h2>
        
 
           {/* Error */}
           {error && (
-            <div className="mb-6 p-3 bg-red-500/20 border border-red-500/50 rounded-xl">
-              <p className="text-red-200 text-center text-sm">{error}</p>
+            <div className="mb-6 p-3 bg-red-100 border border-red-300 rounded-xl">
+              <p className="text-red-600 text-center text-sm">{error}</p>
             </div>
           )}
 
@@ -66,11 +65,11 @@ export default function Login() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
-              <label className="absolute left-4 top-3 text-white/60 text-base transition-all
-                peer-focus:-top-2 peer-focus:text-xs peer-focus:text-pink-400 peer-focus:bg-slate-900/70 peer-focus:px-1
-                peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:bg-slate-900/70 peer-not-placeholder-shown:px-1">
+              <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
+                peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
+                peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:bg-white peer-not-placeholder-shown:px-1">
                 Username
               </label>
             </div>
@@ -84,11 +83,11 @@ export default function Login() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
-              <label className="absolute left-4 top-3 text-white/60 text-base transition-all
-                peer-focus:-top-2 peer-focus:text-xs peer-focus:text-pink-400 peer-focus:bg-slate-900/70 peer-focus:px-1
-                peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:bg-slate-900/70 peer-not-placeholder-shown:px-1">
+              <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
+                peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
+                peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:bg-white peer-not-placeholder-shown:px-1">
                 Phone Number
               </label>
             </div>
@@ -102,11 +101,11 @@ export default function Login() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
-              <label className="absolute left-4 top-3 text-white/60 text-base transition-all
-                peer-focus:-top-2 peer-focus:text-xs peer-focus:text-pink-400 peer-focus:bg-slate-900/70 peer-focus:px-1
-                peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:bg-slate-900/70 peer-not-placeholder-shown:px-1">
+              <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
+                peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
+                peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:bg-white peer-not-placeholder-shown:px-1">
                 Password
               </label>
             </div>
@@ -115,23 +114,23 @@ export default function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:shadow-lg transition-all"
             >
               {isLoading ? "Signing in..." : "Sign In"}
             </button>
 
             {/* DEMO */}
-            <div className="mt-4 p-3 bg-white/5 rounded-xl border border-white/10">
-              <p className="text-xs text-white/50 text-center">
+            <div className="mt-4 p-3 bg-gray-100 rounded-xl border border-gray-200">
+              <p className="text-xs text-gray-500 text-center">
                 Username: maki | Phone: 0911995992 | Password: 123456
               </p>
             </div>
           </form>
 
           {/* SIGNUP */}
-          <div className="mt-6 text-center text-white/60">
+          <div className="mt-6 text-center text-gray-500">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-pink-400 hover:underline">
+            <Link to="/signup" className="text-purple-600 hover:underline">
               Create Account
             </Link>
           </div>
