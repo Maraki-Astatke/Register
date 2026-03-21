@@ -34,8 +34,6 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white p-4 relative overflow-hidden">
-
-      {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-200 rounded-full blur-3xl opacity-40"></div>
@@ -43,11 +41,9 @@ export default function Signup() {
 
       <div className="max-w-md w-full relative z-10">
         <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-gray-200">
-
           <h2 className="text-4xl italic font-bold mb-2 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
             Create Account
           </h2>
-       
 
           {error && (
             <div className="mb-6 p-3 bg-red-100 border border-red-300 rounded-xl">
@@ -56,8 +52,6 @@ export default function Signup() {
           )}
 
           <form onSubmit={handleSignup} className="space-y-4">
-
-            {/* Full Name */}
             <div className="relative mt-9">
               <input
                 name="name"
@@ -65,7 +59,7 @@ export default function Signup() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
               <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
                 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
@@ -74,7 +68,6 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* Phone Number */}
             <div className="relative">
               <input
                 name="phone"
@@ -82,7 +75,7 @@ export default function Signup() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
               <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
                 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
@@ -91,7 +84,6 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* Email */}
             <div className="relative">
               <input
                 name="email"
@@ -100,7 +92,7 @@ export default function Signup() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
               <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
                 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
@@ -109,7 +101,6 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* Date of Birth */}
             <div className="relative">
               <input
                 name="dob"
@@ -117,14 +108,13 @@ export default function Signup() {
                 value={form.dob}
                 onChange={handleChange}
                 required
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
               <label className="absolute left-4 -top-2 text-xs text-purple-600 bg-white px-1">
                 Date of Birth
               </label>
             </div>
 
-            {/* Location */}
             <div className="relative">
               <input
                 name="location"
@@ -132,7 +122,7 @@ export default function Signup() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
               <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
                 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
@@ -141,7 +131,6 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* Password */}
             <div className="relative">
               <input
                 name="password"
@@ -150,7 +139,7 @@ export default function Signup() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
               <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
                 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
@@ -159,7 +148,6 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* Button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -167,17 +155,14 @@ export default function Signup() {
             >
               {isLoading ? "Creating account..." : "Sign Up"}
             </button>
-
           </form>
 
-          {/* Sign In Link */}
           <div className="mt-6 text-center text-gray-500">
             Already have an account?{" "}
             <Link to="/login" className="text-purple-600 hover:underline">
               Sign In
             </Link>
           </div>
-
         </div>
       </div>
     </div>

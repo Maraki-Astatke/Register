@@ -32,8 +32,6 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white p-4 relative overflow-hidden">
-
-      {/* Background blobs - made lighter */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-200 rounded-full blur-3xl opacity-40"></div>
@@ -41,13 +39,10 @@ export default function Login() {
 
       <div className="max-w-md w-full relative z-10">
         <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-gray-200">
-
           <h2 className="text-4xl italic font-bold mb-8 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
             Welcome Back
           </h2>
-       
 
-          {/* Error */}
           {error && (
             <div className="mb-6 p-3 bg-red-100 border border-red-300 rounded-xl">
               <p className="text-red-600 text-center text-sm">{error}</p>
@@ -55,8 +50,6 @@ export default function Login() {
           )}
 
           <form onSubmit={handleLogin} className="space-y-5">
-
-            {/* USERNAME */}
             <div className="relative">
               <input
                 type="text"
@@ -65,7 +58,7 @@ export default function Login() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
               <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
                 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
@@ -74,7 +67,6 @@ export default function Login() {
               </label>
             </div>
 
-            {/* PHONE */}
             <div className="relative">
               <input
                 type="tel"
@@ -83,7 +75,7 @@ export default function Login() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
               <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
                 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
@@ -92,7 +84,6 @@ export default function Login() {
               </label>
             </div>
 
-            {/* PASSWORD */}
             <div className="relative">
               <input
                 type="password"
@@ -101,7 +92,7 @@ export default function Login() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50  border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
+                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
               <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
                 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
@@ -110,7 +101,6 @@ export default function Login() {
               </label>
             </div>
 
-            {/* BUTTON */}
             <button
               type="submit"
               disabled={isLoading}
@@ -119,7 +109,6 @@ export default function Login() {
               {isLoading ? "Signing in..." : "Sign In"}
             </button>
 
-            {/* DEMO */}
             <div className="mt-4 p-3 bg-gray-100 rounded-xl border border-gray-200">
               <p className="text-xs text-gray-500 text-center">
                 Username: maki | Phone: 0911995992 | Password: 123456
@@ -127,14 +116,12 @@ export default function Login() {
             </div>
           </form>
 
-          {/* SIGNUP */}
           <div className="mt-6 text-center text-gray-500">
             Don't have an account?{" "}
             <Link to="/signup" className="text-purple-600 hover:underline">
               Create Account
             </Link>
           </div>
-
         </div>
       </div>
     </div>
