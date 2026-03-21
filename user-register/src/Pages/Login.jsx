@@ -16,7 +16,6 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     if (
       form.username === DEMO_USER.username &&

@@ -35,7 +35,7 @@ export default function Signup() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 relative overflow-hidden">
 
-      {/* Background */}
+
       <div className="absolute inset-0">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
@@ -57,7 +57,7 @@ export default function Signup() {
 
           <form onSubmit={handleSignup} className="space-y-4">
 
-            {/* NAME */}
+      
             <div className="relative">
               <input
                 name="name"
@@ -74,7 +74,7 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* PHONE */}
+   
             <div className="relative">
               <input
                 name="phone"
@@ -91,7 +91,7 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* EMAIL */}
+      
             <div className="relative">
               <input
                 name="email"
@@ -109,7 +109,7 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* DOB */}
+     
             <div className="relative">
               <input
                 name="dob"
@@ -124,7 +124,7 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* LOCATION */}
+       
             <div className="relative">
               <input
                 name="location"
@@ -141,7 +141,6 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* PASSWORD */}
             <div className="relative">
               <input
                 name="password"
@@ -159,7 +158,7 @@ export default function Signup() {
               </label>
             </div>
 
-            {/* BUTTON */}
+   
             <button
               type="submit"
               disabled={isLoading}
