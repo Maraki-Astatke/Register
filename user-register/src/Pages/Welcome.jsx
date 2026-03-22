@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function Welcome() {
   const location = useLocation();
   const navigate = useNavigate();
-  const username = location.state?.username || "User";
+  const username = location.state.username;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white p-4 relative overflow-hidden">
