@@ -12,21 +12,19 @@ export default function Signup() {
     password: "",
   });
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSignup = async (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
 
-    for (let key in form)
-      if (!form[key]) return setError("⚠️ All fields are required");
+    for (let key in form) {
+      if (!form[key]) {
+        return setError("⚠️ All fields are required");
+      }
+    }
 
-    setIsLoading(true);
-   
-
-    setError("");
     console.log("✅ User signed up:", form);
     localStorage.setItem("user", JSON.stringify(form));
     navigate("/welcome", { state: { username: form.name } });
@@ -40,7 +38,7 @@ export default function Signup() {
       </div>
 
       <div className="max-w-md w-full relative z-10">
-        <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl  border border-gray-200">
+        <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl border border-gray-200">
           <h2 className="text-4xl italic font-bold mb-2 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
             Create Account
           </h2>
@@ -150,10 +148,9 @@ export default function Signup() {
 
             <button
               type="submit"
-              disabled={isLoading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold transition-all"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold transition-all hover:shadow-lg"
             >
-              {isLoading ? "Creating account..." : "Sign Up"}
+              Sign Up
             </button>
           </form>
 
