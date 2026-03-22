@@ -9,11 +9,11 @@ export default function Login() {
 
   const DEMO_USER = { username: "maki", phone: "0911995992", password: "123456" };
 
- const handleChange = (e) =>
-  setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-const handleLogin = (e) => {
-  e.preventDefault();
+  const handleLogin = (e) => {
+    e.preventDefault();
 
     if (
       form.username === DEMO_USER.username &&
@@ -38,7 +38,7 @@ const handleLogin = (e) => {
 
       <div className="max-w-md w-full relative z-10">
         <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl border border-gray-200">
-          <h2 className="text-4xl italic font-bold mb-8 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <h2 className="text-4xl italic font-bold mb-8 text-center text-black to-pink-500 bg-clip-text ">
             Welcome Back
           </h2>
 
@@ -103,17 +103,15 @@ const handleLogin = (e) => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold  transition-all"
+              className="w-full py-3 rounded-xl text-white bg-amber-700 font-semibold transition-all"
             >
               {isLoading ? "Signing in..." : "Sign In"}
             </button>
-
-         
           </form>
 
           <div className="mt-6 text-center text-gray-500">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-purple-600 hover:underline">
+            <Link to="/signup" className="text-amber-700 hover:underline">
               Create Account
             </Link>
           </div>

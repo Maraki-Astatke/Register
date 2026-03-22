@@ -39,7 +39,7 @@ export default function Signup() {
 
       <div className="max-w-md w-full relative z-10">
         <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl border border-gray-200">
-          <h2 className="text-4xl italic font-bold mb-2 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <h2 className="text-4xl italic font-bold mb-2 text-center text-black to-pink-500 bg-clip-text ">
             Create Account
           </h2>
 
@@ -148,7 +148,7 @@ export default function Signup() {
 
             <button
               type="submit"
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold transition-all hover:shadow-lg"
+              className="w-full py-3 rounded-xl bg-amber-700 to-pink-500 text-white font-semibold transition-all hover:shadow-lg"
             >
               Sign Up
             </button>
@@ -156,7 +156,7 @@ export default function Signup() {
 
           <div className="mt-6 text-center text-gray-500">
             Already have an account?{" "}
-            <Link to="/login" className="text-purple-600 hover:underline">
+            <Link to="/login" className="text-amber-700 hover:underline">
               Sign In
             </Link>
           </div>
