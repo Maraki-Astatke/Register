@@ -40,7 +40,7 @@ export default function Signup() {
       </div>
 
       <div className="max-w-md w-full relative z-10">
-        <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-gray-200">
+        <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl  border border-gray-200">
           <h2 className="text-4xl italic font-bold mb-2 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
             Create Account
           </h2>
@@ -151,7 +151,7 @@ export default function Signup() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:shadow-lg transition-all"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold transition-all"
             >
               {isLoading ? "Creating account..." : "Sign Up"}
             </button>

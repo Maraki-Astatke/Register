@@ -9,12 +9,11 @@ export default function Login() {
 
   const DEMO_USER = { username: "maki", phone: "0911995992", password: "123456" };
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+ const handleChange = (e) =>
+  setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+const handleLogin = (e) => {
+  e.preventDefault();
 
     if (
       form.username === DEMO_USER.username &&
@@ -38,7 +37,7 @@ export default function Login() {
       </div>
 
       <div className="max-w-md w-full relative z-10">
-        <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-gray-200">
+        <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl border border-gray-200">
           <h2 className="text-4xl italic font-bold mb-8 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
             Welcome Back
           </h2>
@@ -104,7 +103,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:shadow-lg transition-all"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold  transition-all"
             >
               {isLoading ? "Signing in..." : "Sign In"}
             </button>
