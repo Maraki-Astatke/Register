@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -28,6 +29,37 @@ export default function Signup() {
     console.log("✅ User signed up:", form);
     localStorage.setItem("user", JSON.stringify(form));
     navigate("/welcome", { state: { username: form.name } });
+  };
+ const handleGoogleSuccess = async (response) => {
+    console.log("Google Login Success:", response);
+    setIsLoading(true);
+    
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential: response.credential }),
+      });
+      
+      const data = await res.json();
+      console.log("User data:", data);
+      
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
+      
+      navigate("/welcome", { state: { username: data.user?.username || "Google User" } });
+    } catch (error) {
+      console.error("Google login error:", error);
+      setError("Google login failed. Please try again.");
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleFailure = () => {
+    console.log("Google Login Failed");
+    setError("Google login failed. Please try again.");
   };
 
   return (
@@ -154,7 +186,21 @@ export default function Signup() {
             </button>
           </form>
 
-          <div className="mt-6 text-center text-gray-500">
+
+          <div className="flex justify-center mt-5">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleFailure}
+              useOneTap={false}
+              theme="outline"
+              size="large"
+              text="continue_with"
+              shape="rectangular"
+              width="100%"
+            />
+          </div>
+
+          <div className="mt-6 text-center text-gray-500 ">
             Already have an account?{" "}
             <Link to="/login" className="text-amber-700 hover:underline">
               Sign In

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (
       form.username === DEMO_USER.username &&
@@ -21,12 +23,44 @@ export default function Login() {
       form.password === DEMO_USER.password
     ) {
       setError("");
-      console.log("✅ User logged in:", form.username);
+      console.log("User logged in:", form.username);
       navigate("/welcome", { state: { username: form.username } });
     } else {
-      setError("❌ Invalid credentials");
+      setError("Invalid credentials");
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = async (response) => {
+    console.log("Google Login Success:", response);
+    setIsLoading(true);
+    
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential: response.credential }),
+      });
+      
+      const data = await res.json();
+      console.log("User data:", data);
+      
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
+      
+      navigate("/welcome", { state: { username: data.user?.username || "Google User" } });
+    } catch (error) {
+      console.error("Google login error:", error);
+      setError("Google login failed. Please try again.");
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleFailure = () => {
+    console.log("Google Login Failed");
+    setError("Google login failed. Please try again.");
   };
 
   return (
@@ -38,7 +72,7 @@ export default function Login() {
 
       <div className="max-w-md w-full relative z-10">
         <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl border border-gray-200">
-          <h2 className="text-4xl italic font-bold mb-8 text-center text-black to-pink-500 bg-clip-text ">
+          <h2 className="text-4xl italic font-bold mb-8 text-center text-black">
             Welcome Back
           </h2>
 
@@ -103,11 +137,33 @@ export default function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 rounded-xl text-white bg-amber-700 font-semibold transition-all"
+              className="w-full py-3 rounded-xl text-white bg-amber-700 font-semibold transition-all hover:bg-amber-800 disabled:opacity-50"
             >
               {isLoading ? "Signing in..." : "Sign In"}
             </button>
           </form>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white/90 text-gray-500">Continue with</span>
+            </div>
+          </div>
+
+          <div className="flex justify-center">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleFailure}
+              useOneTap={false}
+              theme="outline"
+              size="large"
+              text="continue_with"
+              shape="rectangular"
+              width="100%"
+            />
+          </div>
 
           <div className="mt-6 text-center text-gray-500">
             Don't have an account?{" "}
