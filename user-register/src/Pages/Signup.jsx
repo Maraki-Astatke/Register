@@ -22,11 +22,11 @@ export default function Signup() {
 
     for (let key in form) {
       if (!form[key]) {
-        return setError("⚠️ All fields are required");
+        return setError("All fields are required");
       }
     }
 
-    console.log("✅ User signed up:", form);
+    console.log("User signed up:", form);
     localStorage.setItem("user", JSON.stringify(form));
     navigate("/welcome", { state: { username: form.name } });
   };
