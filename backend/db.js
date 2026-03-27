@@ -12,8 +12,7 @@ const pool = new Pool({
 async function testConnection() {
   try {
     const client = await pool.connect();
-    console.log('✅ Successfully connected to PostgreSQL database!');
-    
+    console.log('Successfully connected to PostgreSQL database!');
 
     const result = await client.query(`
       SELECT table_name 
@@ -22,9 +21,9 @@ async function testConnection() {
     `);
     
     if (result.rows.length > 0) {
-      console.log('✅ Users table exists!');
+      console.log('Users table exists!');
     } else {
-      console.log('⚠️  Users table not found');
+      console.log('Users table not found');
     }
     
     client.release();

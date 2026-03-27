@@ -1,40 +1,63 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { isTokenExpired, logout, getCurrentUser } from "../utils/auth";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Welcome() {
   const location = useLocation();
   const navigate = useNavigate();
-  const username = location.state.username;
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const userFromState = location.state?.username;
+    const userFromStorage = getCurrentUser();
+    
+    if (userFromState) {
+      setUsername(userFromState);
+    } else if (userFromStorage?.name) {
+      setUsername(userFromStorage.name);
+    } else {
+      setUsername("User");
+    }
+    
+    if (isTokenExpired()) {
+      logout();
+      navigate("/login");
+    }
+  }, [location, navigate]);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-4 relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-200 rounded-full blur-3xl opacity-40"></div>
-      </div>
-
-      <div className="max-w-2xl w-full relative z-10">
-       
-        
-        <div className="relative bg-white/90 backdrop-blur-xl p-10 rounded-3xl border border-gray-200 transform transition-all duration-300 hover:scale-[1.02]">
-          <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-bounce-slow">
-             
-            </div>
-          </div>
-
-          <div className="text-center mb-8">
-            <p className="text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 mb-3">
-              Welcome {username}!
-            </p>
-          </div>
-
-          <div className="mt-6 p-4 bg-gray-100 rounded-xl border border-gray-200">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold text-center">
+            Welcome {username}!
+          </CardTitle>
+          <CardDescription className="text-center">
+            You are now logged in
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="p-4 bg-gray-100 rounded-lg border border-gray-200">
             <p className="text-sm text-gray-600 text-center">
               You are now logged in as <span className="font-semibold text-purple-600">{username}</span>
             </p>
           </div>
-        </div>
-      </div>
+          <Button 
+            onClick={handleLogout} 
+            variant="destructive" 
+            className="w-full"
+          >
+            Logout
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }

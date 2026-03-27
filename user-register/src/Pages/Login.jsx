@@ -1,32 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import API_URL from "../config/api";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ username: "", phone: "", password: "" });
+  const [form, setForm] = useState({ identifier: "", password: "" });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const DEMO_USER = { username: "maki", phone: "0911995992", password: "123456" };
+  useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  }, []);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError("");
 
-    if (
-      form.username === DEMO_USER.username &&
-      form.phone === DEMO_USER.phone &&
-      form.password === DEMO_USER.password
-    ) {
-      setError("");
-      console.log("User logged in:", form.username);
-      navigate("/welcome", { state: { username: form.username } });
-    } else {
-      setError("Invalid credentials");
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          identifier: form.identifier,
+          password: form.password
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        navigate("/welcome", { state: { username: data.user.name } });
+      } else {
+        setError(data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("Server error. Please try again.");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -36,21 +58,19 @@ export default function Login() {
     setIsLoading(true);
     
     try {
-      const res = await fetch("http://localhost:5000/api/auth/google", {
+      const res = await fetch(`${API_URL}/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ credential: response.credential }),
       });
       
       const data = await res.json();
-      console.log("User data:", data);
       
       if (data.token) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
+        navigate("/welcome", { state: { username: data.user.name } });
       }
-      
-      navigate("/welcome", { state: { username: data.user?.username || "Google User" } });
     } catch (error) {
       console.error("Google login error:", error);
       setError("Google login failed. Please try again.");
@@ -64,94 +84,62 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-4 relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-200 rounded-full blur-3xl opacity-40"></div>
-      </div>
-
-      <div className="max-w-md w-full relative z-10">
-        <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-3xl border border-gray-200">
-          <h2 className="text-4xl italic font-bold mb-8 text-center text-black">
-            Welcome Back
-          </h2>
-
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold text-center">Welcome Back</CardTitle>
+          <CardDescription className="text-center">
+            Sign in to your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
           {error && (
-            <div className="mb-6 p-3 bg-red-100 border border-red-300 rounded-xl">
+            <div className="mb-4 p-3 bg-red-100 border border-red-300 rounded-md">
               <p className="text-red-600 text-center text-sm">{error}</p>
             </div>
           )}
-
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div className="relative">
-              <input
+          
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="identifier">Email or Phone Number</Label>
+              <Input
+                id="identifier"
+                name="identifier"
                 type="text"
-                name="username"
-                value={form.username}
+                placeholder="email@example.com or 0912345678"
+                value={form.identifier}
                 onChange={handleChange}
                 required
-                placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
-              <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
-                peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
-                peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:bg-white peer-not-placeholder-shown:px-1">
-                Username
-              </label>
             </div>
-
-            <div className="relative">
-              <input
-                type="tel"
-                name="phone"
-                value={form.phone}
-                onChange={handleChange}
-                required
-                placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
-              />
-              <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
-                peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
-                peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:bg-white peer-not-placeholder-shown:px-1">
-                Phone Number
-              </label>
-            </div>
-
-            <div className="relative">
-              <input
-                type="password"
+            
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
                 name="password"
+                type="password"
+                placeholder="••••••••"
                 value={form.password}
                 onChange={handleChange}
                 required
-                placeholder=" "
-                className="peer w-full px-4 py-3 rounded-xl bg-gray-50 border-gray-300 text-gray-800 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50"
               />
-              <label className="absolute left-4 top-3 text-gray-500 text-base transition-all
-                peer-focus:-top-2 peer-focus:text-xs peer-focus:text-purple-600 peer-focus:bg-white peer-focus:px-1
-                peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:bg-white peer-not-placeholder-shown:px-1">
-                Password
-              </label>
             </div>
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3 rounded-xl text-white bg-amber-700 font-semibold transition-all hover:bg-amber-800 disabled:opacity-50"
-            >
+            
+            <Button type="submit" className="w-full bg-amber-700 hover:bg-amber-800" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign In"}
-            </button>
+            </Button>
           </form>
-
+          
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white/90 text-gray-500">Continue with</span>
+              <span className="px-2 bg-white text-gray-500">Continue with</span>
             </div>
           </div>
-
+          
           <div className="flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
@@ -164,15 +152,16 @@ export default function Login() {
               width="100%"
             />
           </div>
-
-          <div className="mt-6 text-center text-gray-500">
+        </CardContent>
+        <CardFooter className="flex justify-center">
+          <p className="text-sm text-gray-500">
             Don't have an account?{" "}
             <Link to="/signup" className="text-amber-700 hover:underline">
               Create Account
             </Link>
-          </div>
-        </div>
-      </div>
+          </p>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
