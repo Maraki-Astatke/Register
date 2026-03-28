@@ -8,16 +8,13 @@ export default function ProtectedRoute({ children }) {
 
   useEffect(() => {
     const checkAuth = async () => {
-      // First check if token exists
       const token = localStorage.getItem("token");
-      
       if (!token) {
         setIsAuth(false);
         setIsLoading(false);
         return;
       }
-      
-      // Check if token is expired
+
       if (isTokenExpired()) {
         console.log("Token expired, logging out");
         logout();
@@ -25,12 +22,10 @@ export default function ProtectedRoute({ children }) {
         setIsLoading(false);
         return;
       }
-      
-      // Verify token with backend
+
       const authenticated = await isAuthenticated();
       
       if (!authenticated) {
-        // Token invalid, clear storage
         logout();
       }
       
@@ -41,7 +36,6 @@ export default function ProtectedRoute({ children }) {
     checkAuth();
   }, []);
 
-  // Show loading spinner while checking
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -53,11 +47,8 @@ export default function ProtectedRoute({ children }) {
     );
   }
 
-  // Redirect to login if not authenticated
   if (!isAuth) {
     return <Navigate to="/login" replace />;
   }
-
-  // Show protected content
-  return children;
+    return children;
 }

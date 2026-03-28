@@ -83,7 +83,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Generate token
     const token = generateToken(user.id);
 
     res.json({

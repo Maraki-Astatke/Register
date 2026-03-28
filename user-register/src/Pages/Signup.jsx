@@ -52,13 +52,10 @@ export default function Signup() {
         setTimeout(() => {
           navigate("/login");
         }, 3000);
-      } else {
-        if (data.errors) {
-          setError(data.errors.map(e => e.msg).join(", "));
-        } else {
+      }  else {
           setError(data.message || "Signup failed");
         }
-      }
+    
     } catch (error) {
       console.error("Signup error:", error);
       setError("Server error. Please try again.");
@@ -126,7 +123,7 @@ export default function Signup() {
                 id="name"
                 name="name"
                 type="text"
-                placeholder="John Doe"
+                placeholder="Maki"
                 value={form.name}
                 onChange={handleChange}
                 required
@@ -152,7 +149,7 @@ export default function Signup() {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="john@example.com"
+                placeholder="maki@example.com"
                 value={form.email}
                 onChange={handleChange}
                 required

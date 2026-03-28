@@ -1,6 +1,5 @@
 import API_URL from "../config/api";
 
-// Check if user is authenticated (token exists AND is valid)
 export const isAuthenticated = async () => {
   const token = localStorage.getItem("token");
   
@@ -24,20 +23,16 @@ export const isAuthenticated = async () => {
     return false;
   }
 };
-
-// Get current user from localStorage
 export const getCurrentUser = () => {
   const user = localStorage.getItem("user");
   return user ? JSON.parse(user) : null;
 };
 
-// Logout user
 export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
 };
 
-// Check token expiration
 export const isTokenExpired = () => {
   const token = localStorage.getItem("token");
   if (!token) return true;

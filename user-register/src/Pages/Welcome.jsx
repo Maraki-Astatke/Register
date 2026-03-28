@@ -11,14 +11,10 @@ export default function Welcome() {
 
   useEffect(() => {
     const userFromState = location.state?.username;
-    const userFromStorage = getCurrentUser();
+
     
     if (userFromState) {
       setUsername(userFromState);
-    } else if (userFromStorage?.name) {
-      setUsername(userFromStorage.name);
-    } else {
-      setUsername("User");
     }
     
     if (isTokenExpired()) {
