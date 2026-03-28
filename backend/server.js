@@ -69,6 +69,6 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`\n🚀 Server running on http://localhost:${PORT}`);
-  console.log(`\n✅ Database connected`);
+  console.log(`\n Server running on http://localhost:${PORT}`);
+  console.log(`\n Database connected`);
 });

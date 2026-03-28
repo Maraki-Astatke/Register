@@ -9,10 +9,18 @@ const validateSignup = [
     .isLength({ min: 2, max: 100 })
     .withMessage('Name must be between 2 and 100 characters'),
   
-  body('email')
-    .isEmail()
-    .normalizeEmail()
-    .withMessage('Valid email is required'),
+body('email')
+  .isEmail()
+  .normalizeEmail()
+  .withMessage('Valid email is required')
+  .custom((value) => {
+    const allowedDomains = ['gmail.com', 'yahoo.com', 'icloud.com'];
+    const domain = value.split('@')[1];
+    if (!allowedDomains.includes(domain)) {
+      throw new Error('Email must be from Gmail, Yahoo, or iCloud');
+    }
+    return true;
+  }),
   
   body('phone')
     .trim()
