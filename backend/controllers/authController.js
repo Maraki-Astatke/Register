@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const UserSequelize = require('../models/UserSequelize'); 
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
@@ -13,7 +13,7 @@ exports.signup = async (req, res) => {
   try {
     const { name, email, phone, password, dob, location } = req.body;
 
-    const existingUser = await User.findByEmail(email);
+    const existingUser = await UserSequelize.findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ 
         success: false,
@@ -21,7 +21,7 @@ exports.signup = async (req, res) => {
       });
     }
 
-    const existingPhone = await User.findByPhone(phone);
+    const existingPhone = await UserSequelize.findOne({ where: { phone } });
     if (existingPhone) {
       return res.status(400).json({ 
         success: false,
@@ -29,37 +29,19 @@ exports.signup = async (req, res) => {
       });
     }
 
-    const hashedPassword = await User.hashPassword(password);
-
     const emailVerificationToken = crypto.randomBytes(32).toString('hex');
     const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
-    const user = await User.create({
+    const user = await UserSequelize.create({
       name,
       email,
       phone,
-      password: hashedPassword,
+      password,
       dob,
       location,
-      emailVerificationToken,
-      emailVerificationExpires,
+      email_verification_token: emailVerificationToken,
+      email_verification_expires: emailVerificationExpires,
       is_email_verified: true
-    });
-
-    const verificationUrl = `${process.env.FRONTEND_URL}/login?token=${emailVerificationToken}`;
-    
-    await sendEmail({
-      to: user.email,
-      subject: 'Welcome to Register App!',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h2 style="color: #333;">Welcome ${user.name}!</h2>
-          <p>Thank you for registering. Your account has been created successfully.</p>
-          <p>You can now <a href="${process.env.FRONTEND_URL}/login">log in here</a>.</p>
-          <hr />
-          <p style="color: #666; font-size: 12px;">If you didn't create an account, please ignore this email.</p>
-        </div>
-      `
     });
 
     res.status(201).json({
@@ -86,7 +68,15 @@ exports.login = async (req, res) => {
   try {
     const { identifier, password } = req.body;
 
-    const user = await User.findByIdentifier(identifier);
+    const { Op } = require('sequelize');
+    const user = await UserSequelize.findOne({
+      where: {
+        [Op.or]: [
+          { email: identifier },
+          { phone: identifier }
+        ]
+      }
+    });
 
     if (!user) {
       return res.status(401).json({ 
@@ -95,7 +85,7 @@ exports.login = async (req, res) => {
       });
     }
 
-    const isPasswordValid = await User.comparePassword(password, user.password);
+    const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(401).json({ 
         success: false,
@@ -129,13 +119,27 @@ exports.login = async (req, res) => {
 exports.verifyEmail = async (req, res) => {
   try {
     const { token } = req.params;
-    const user = await User.findByVerificationToken(token);
+    const { Op } = require('sequelize');
+    
+    const user = await UserSequelize.findOne({
+      where: {
+        email_verification_token: token,
+        email_verification_expires: {
+          [Op.gt]: new Date()
+        }
+      }
+    });
 
     if (!user) {
       return res.redirect(`${process.env.FRONTEND_URL}/login?error=invalid-token`);
     }
 
-    await User.verifyEmail(user.id);
+    await user.update({
+      is_email_verified: true,
+      email_verification_token: null,
+      email_verification_expires: null
+    });
+
     res.redirect(`${process.env.FRONTEND_URL}/login?verified=true`);
     
   } catch (error) {
@@ -146,7 +150,9 @@ exports.verifyEmail = async (req, res) => {
 
 exports.getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await UserSequelize.findByPk(req.user.id, {
+      attributes: { exclude: ['password'] }
+    });
     
     if (!user) {
       return res.status(404).json({ 
