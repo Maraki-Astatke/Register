@@ -6,8 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import API_URL from "../config/api";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function Login() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [form, setForm] = useState({ identifier: "", password: "" });
   const [error, setError] = useState("");
@@ -32,7 +35,7 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           identifier: form.identifier,
-          password: form.password //actual info send to the backend
+          password: form.password
         }),
       });
 
@@ -43,11 +46,11 @@ export default function Login() {
         localStorage.setItem("user", JSON.stringify(data.user));
         navigate("/welcome", { state: { username: data.user.name } });
       } else {
-        setError(data.message || "Login failed");
+        setError(data.message || t("login.errors.failed"));
       }
     } catch (error) {
       console.error("Login error:", error);
-      setError("Server error. Please try again.");
+      setError(t("login.errors.server"));
     } finally {
       setIsLoading(false);
     }
@@ -73,18 +76,23 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Google login error:", error);
-      setError("Google login failed. Please try again.");
+      setError(t("login.errors.google"));
       setIsLoading(false);
     }
   };
 
   const handleGoogleFailure = () => {
     console.log("Google Login Failed");
-    setError("Google login failed. Please try again.");
+    setError(t("login.errors.google"));
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4 relative">
+      {/* Language Switcher - Top Right */}
+      <div className="absolute top-4 right-4 z-50">
+        <LanguageSwitcher />
+      </div>
+
       <Card className="w-full max-w-md shadow-2xl border-0 rounded-2xl backdrop-blur-sm bg-white/90">
         <CardHeader className="space-y-2 text-center pb-6 pt-8">
           <div className="mx-auto w-14 h-14 bg-emerald-600 rounded-2xl flex items-center justify-center shadow-lg">
@@ -92,24 +100,26 @@ export default function Login() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
             </svg>
           </div>
-          <CardTitle className="text-3xl font-bold bg-emerald-600 to-amber-500 bg-clip-text text-transparent">
-            Welcome Back
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-amber-500 bg-clip-text text-transparent">
+            {t("login.title")}
           </CardTitle>
           <CardDescription className="text-gray-500 text-base">
-            Sign in to continue to your account
+            {t("login.subtitle")}
           </CardDescription>
         </CardHeader>
         
         <CardContent className="space-y-5 px-6">
           {error && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
-              <p className="text-emerald-600 text-center text-sm font-medium">{error}</p>
+              <p className="text-red-600 text-center text-sm font-medium">{error}</p>
             </div>
           )}
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="identifier" className="text-gray-700 font-medium">Email or Phone Number</Label>
+              <Label htmlFor="identifier" className="text-gray-700 font-medium">
+                {t("login.emailOrPhone")}
+              </Label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,7 +130,7 @@ export default function Login() {
                   id="identifier"
                   name="identifier"
                   type="text"
-                  placeholder="email@example.com or 0912345678"
+                  placeholder={t("login.emailPlaceholder")}
                   value={form.identifier}
                   onChange={handleChange}
                   required
@@ -130,7 +140,9 @@ export default function Login() {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
+              <Label htmlFor="password" className="text-gray-700 font-medium">
+                {t("login.password")}
+              </Label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,10 +173,10 @@ export default function Login() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Signing in...
+                  {t("login.signingIn")}
                 </div>
               ) : (
-                "Sign In"
+                t("login.signIn")
               )}
             </Button>
           </form>
@@ -174,7 +186,7 @@ export default function Login() {
               <div className="w-full border-t border-gray-200"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-3 bg-white text-gray-400">or continue with</span>
+              <span className="px-3 bg-white text-gray-400">{t("login.orContinue")}</span>
             </div>
           </div>
           
@@ -194,9 +206,9 @@ export default function Login() {
         
         <CardFooter className="flex justify-center pt-2 pb-8">
           <p className="text-sm text-gray-500">
-            Don't have an account?{" "}
+            {t("login.noAccount")}{" "}
             <Link to="/signup" className="text-emerald-600 font-semibold hover:underline transition-colors">
-              Create Account
+              {t("login.createAccount")}
             </Link>
           </p>
         </CardFooter>

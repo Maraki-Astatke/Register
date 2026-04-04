@@ -6,8 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import API_URL from "../config/api";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function Signup() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
@@ -32,7 +35,7 @@ export default function Signup() {
 
     for (let key in form) {
       if (!form[key]) {
-        setError("All fields are required");
+        setError(t("signup.errors.allFieldsRequired"));
         setIsLoading(false);
         return;
       }
@@ -48,7 +51,7 @@ export default function Signup() {
       const data = await response.json();
 
       if (data.success) {
-        setSuccess("Account created! Please check your email to verify.");
+        setSuccess(t("signup.success.accountCreated"));
         setTimeout(() => {
           navigate("/login");
         }, 3000);
@@ -56,12 +59,12 @@ export default function Signup() {
         if (data.errors) {
           setError(data.errors.map(e => e.msg).join(", "));
         } else {
-          setError(data.message || "Signup failed");
+          setError(data.message || t("signup.errors.failed"));
         }
       }
     } catch (error) {
       console.error("Signup error:", error);
-      setError("Server error. Please try again.");
+      setError(t("signup.errors.server"));
     } finally {
       setIsLoading(false);
     }
@@ -87,18 +90,23 @@ export default function Signup() {
       }
     } catch (error) {
       console.error("Google login error:", error);
-      setError("Google login failed. Please try again.");
+      setError(t("signup.errors.google"));
       setIsLoading(false);
     }
   };
 
   const handleGoogleFailure = () => {
     console.log("Google Login Failed");
-    setError("Google login failed. Please try again.");
+    setError(t("signup.errors.google"));
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4 relative">
+      {/* Language Switcher - Top Right */}
+      <div className="absolute top-4 right-4 z-50">
+        <LanguageSwitcher />
+      </div>
+
       <Card className="w-full max-w-md shadow-2xl border-0 rounded-2xl backdrop-blur-sm bg-white/90">
         <CardHeader className="space-y-2 text-center pb-6 pt-8">
           <div className="mx-auto w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
@@ -107,10 +115,10 @@ export default function Signup() {
             </svg>
           </div>
           <CardTitle className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
-            Create Account
+            {t("signup.title")}
           </CardTitle>
           <CardDescription className="text-gray-500 text-base">
-            Sign up to get started
+            {t("signup.subtitle")}
           </CardDescription>
         </CardHeader>
         
@@ -129,18 +137,20 @@ export default function Signup() {
           
           <form onSubmit={handleSignup} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-gray-700 font-medium">Full Name</Label>
+              <Label htmlFor="name" className="text-gray-700 font-medium">
+                {t("signup.fullName")}
+              </Label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    <path strokeLinecap="round" strokelinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
                 <Input
                   id="name"
                   name="name"
                   type="text"
-                  placeholder="maki"
+                  placeholder={t("signup.fullNamePlaceholder")}
                   value={form.name}
                   onChange={handleChange}
                   required
@@ -151,7 +161,9 @@ export default function Signup() {
             
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-gray-700 font-medium">Phone</Label>
+                <Label htmlFor="phone" className="text-gray-700 font-medium">
+                  {t("signup.phone")}
+                </Label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -162,7 +174,7 @@ export default function Signup() {
                     id="phone"
                     name="phone"
                     type="tel"
-                    placeholder="0912345678"
+                    placeholder={t("signup.phonePlaceholder")}
                     value={form.phone}
                     onChange={handleChange}
                     required
@@ -172,7 +184,9 @@ export default function Signup() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="dob" className="text-gray-700 font-medium">Date of Birth</Label>
+                <Label htmlFor="dob" className="text-gray-700 font-medium">
+                  {t("signup.dateOfBirth")}
+                </Label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -193,7 +207,9 @@ export default function Signup() {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-700 font-medium">Email Address</Label>
+              <Label htmlFor="email" className="text-gray-700 font-medium">
+                {t("signup.email")}
+              </Label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -204,7 +220,7 @@ export default function Signup() {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="maki@example.com"
+                  placeholder={t("signup.emailPlaceholder")}
                   value={form.email}
                   onChange={handleChange}
                   required
@@ -215,7 +231,9 @@ export default function Signup() {
             
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="location" className="text-gray-700 font-medium">Location</Label>
+                <Label htmlFor="location" className="text-gray-700 font-medium">
+                  {t("signup.location")}
+                </Label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -227,7 +245,7 @@ export default function Signup() {
                     id="location"
                     name="location"
                     type="text"
-                    placeholder="Addis Ababa"
+                    placeholder={t("signup.locationPlaceholder")}
                     value={form.location}
                     onChange={handleChange}
                     required
@@ -237,7 +255,9 @@ export default function Signup() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
+                <Label htmlFor="password" className="text-gray-700 font-medium">
+                  {t("signup.password")}
+                </Label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -269,10 +289,10 @@ export default function Signup() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Creating Account...
+                  {t("signup.signingUp")}
                 </div>
               ) : (
-                "Sign Up"
+                t("signup.signUp")
               )}
             </Button>
           </form>
@@ -282,7 +302,7 @@ export default function Signup() {
               <div className="w-full border-t border-gray-200"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-3 bg-white text-gray-400">or continue with</span>
+              <span className="px-3 bg-white text-gray-400">{t("signup.orSignUpWith")}</span>
             </div>
           </div>
           
@@ -302,9 +322,9 @@ export default function Signup() {
         
         <CardFooter className="flex justify-center pt-2 pb-8">
           <p className="text-sm text-gray-500">
-            Already have an account?{" "}
+            {t("signup.alreadyHaveAccount")}{" "}
             <Link to="/login" className="text-emerald-600 hover:text-emerald-700 font-semibold hover:underline transition-colors">
-              Sign In
+              {t("signup.signIn")}
             </Link>
           </p>
         </CardFooter>
