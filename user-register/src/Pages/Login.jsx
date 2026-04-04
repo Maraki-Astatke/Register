@@ -32,7 +32,7 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           identifier: form.identifier,
-          password: form.password
+          password: form.password //actual info send to the backend
         }),
       });
 
