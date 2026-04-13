@@ -47,6 +47,8 @@ export default {
     termsAgreement: "እኔ በ",
     termsOfService: "አገልግሎት ውል",
     and: "እና",
+     location: "ቦታ",
+     dateOfBirth: "የትውልድ ቀን",
     privacyPolicy: "የግላዊነት ፖሊሲ",
     passwordRequirements: "የይለፍ ቃል ቢያንስ 6 ቁምፊዎች መሆን አለበት",
     errors: {

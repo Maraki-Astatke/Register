@@ -35,9 +35,9 @@ export default {
     title: "Create Account",
     subtitle: "Join us to start your Ethiopian adventure",
     fullName: "Full Name",
-    fullNamePlaceholder: "John Doe",
+    fullNamePlaceholder: "Maki",
     email: "Email Address",
-    emailPlaceholder: "john@example.com",
+    emailPlaceholder: "maki@example.com",
     phone: "Phone Number",
     phonePlaceholder: "0912345678",
     password: "Password",
@@ -54,6 +54,9 @@ export default {
     and: "and",
     privacyPolicy: "Privacy Policy",
     passwordRequirements: "Password must be at least 6 characters",
+    dateOfBirth: "Birthdate",
+    location: "Location",
+    locationplaceholder: "AA",
     errors: {
       failed: "Signup failed",
       server: "Server error. Please try again.",
@@ -62,11 +65,13 @@ export default {
       emailInvalid: "Please enter a valid email",
       phoneInvalid: "Please enter a valid phone number",
       emailExists: "Email already registered",
-      phoneExists: "Phone number already registered"
+      phoneExists: "Phone number already registered",
+       locationplaceholder: "AA",
     },
     success: {
       accountCreated: "Account created successfully!",
-      verificationSent: "Please verify your email"
+      verificationSent: "Please verify your email",
+       locationplaceholder: "AA",
     }
   },
 
